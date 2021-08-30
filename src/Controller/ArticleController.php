@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use Michelf\MarkdownInterface;
+use App\Service\MarkdownHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Twig\Environment;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class ArticleController extends AbstractController
 {
@@ -27,9 +26,8 @@ class ArticleController extends AbstractController
      * @Route("/news/{slug}", name="article_show")
      */
     public function show(
-        $slug, Environment $twigEnvironment, 
-        MarkdownInterface $markdown,
-        AdapterInterface $cache
+        $slug, Environment $twigEnvironment,
+        MarkdownHelper $markdownHelper
         )
     {
         
@@ -62,14 +60,8 @@ class ArticleController extends AbstractController
 
         //dump($markdown);die;
         //dump($cache);die;
-        $item = $cache->getItem('markdown_'.md5($articleContent));
-        //dump($item);die;
-        if (!$item->isHit()) {
-            $item->set($markdown->transform($articleContent));
-            $cache->save($item);
-        }
 
-        $articleContent = $markdown->transform($articleContent);
+        $articleContent = $markdownHelper->parse($articleContent);
 
         $html = $twigEnvironment->render('article/show.html.twig', [
             'title' => ucwords(str_replace('-', ' ', $slug)),
