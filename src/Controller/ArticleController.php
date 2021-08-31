@@ -27,11 +27,14 @@ class ArticleController extends AbstractController
      */
     public function show(
         $slug, Environment $twigEnvironment,
-        MarkdownHelper $markdownHelper
+        MarkdownHelper $markdownHelper,
+        bool $isDebug
         )
     {
         
         // dump($slug, $this);
+
+        // dump($isDebug);die;
         
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
