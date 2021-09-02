@@ -39,14 +39,17 @@ class ArticleController extends AbstractController
      * @Route("/news/{slug}", name="article_show")
      */
     public function show(
-        $slug, Environment $twigEnvironment,
+        $slug, 
+        Environment $twigEnvironment,
         EntityManagerInterface $em,
         bool $isDebug
+        //Article $article
         )
     {
         
         // dump($slug, $this);
         // dump($isDebug);die;
+        
         
         $repository = $em->getRepository(Article::class);
         /** @var Article $article */
@@ -54,7 +57,9 @@ class ArticleController extends AbstractController
         if (!$article) {
             throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
         }
- 
+        
+
+
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
             'Woohoo! I\'m going on an all-asteroid diet!',
