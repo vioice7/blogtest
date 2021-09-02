@@ -40,6 +40,11 @@ class ArticleAdminController extends AbstractController
             fugiat.
             EOF);
 
+        $article->setAuthor('Test Aim')
+            ->setHeartCount(rand(5, 100))
+            ->setImageFilename('asteroid.jpeg')
+        ;
+
         // publish most articles
         if (rand(1, 10) > 2) {
             $article->setPublishedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
