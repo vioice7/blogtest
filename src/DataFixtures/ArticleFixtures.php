@@ -4,11 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use Doctrine\Persistence\ObjectManager;
+use bjoernffm\Spintax\Parser;
 
 class ArticleFixtures extends BaseFixture
 {
     public function loadData(ObjectManager $manager)
     {
+
 
         $this->createMany(
             Article::class, 
@@ -17,8 +19,8 @@ class ArticleFixtures extends BaseFixture
             {
 
                 $rand = rand(0, 10000);
-                $article->setTitle('Why Asteroids Taste Like Bacon')
-                    ->setSlug('why-asteroids-taste-like-bacon'.$count)
+                $article->setTitle(Parser::parse('Why Asteroids Taste Like {Bacon|Cheese|Cream|Caviar|IceCream}')->generate())
+                    ->setSlug('why-asteroids-taste-like-something-'.$count)
                     ->setContent(<<<EOF
             Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
             lorem proident [beef ribs](https://baconipsum.com/) aute enim veniam ut cillum pork chuck picanha. Dolore reprehenderit
@@ -38,9 +40,9 @@ class ArticleFixtures extends BaseFixture
             fugiat.
             EOF);
 
-                $article->setAuthor('Test Aim')
+                $article->setAuthor(Parser::parse('{Teco Aim|Test Tec|Element Testing|Echelon Aim}')->generate())
                     ->setHeartCount(rand(5, 100))
-                    ->setImageFilename('earth.jpg')
+                    ->setImageFilename(Parser::parse('{asteroid.jpeg|mercury.jpeg|earth.jpg|lightspeed.png}')->generate())
                 ;
 
                 // publish most articles
