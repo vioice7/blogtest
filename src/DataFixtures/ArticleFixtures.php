@@ -14,13 +14,13 @@ class ArticleFixtures extends BaseFixture
 
         $this->createMany(
             Article::class, 
-            100, 
+            10, 
             function(Article $article, $count) 
             {
 
                 $rand = rand(0, 10000);
                 $article->setTitle(Parser::parse('Why Asteroids Taste Like {Bacon|Cheese|Cream|Caviar|IceCream}')->generate())
-                    ->setSlug('why-asteroids-taste-like-something-'.$count)
+                    //->setSlug('why-asteroids-taste-like-something-'.$count)
                     ->setContent(<<<EOF
             Spicy **jalapeno bacon** ipsum dolor amet veniam shank in dolore. Ham hock nisi landjaeger cow,
             lorem proident [beef ribs](https://baconipsum.com/) aute enim veniam ut cillum pork chuck picanha. Dolore reprehenderit
