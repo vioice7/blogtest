@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use Doctrine\Persistence\ObjectManager;
 use bjoernffm\Spintax\Parser;
 
@@ -15,7 +16,7 @@ class ArticleFixtures extends BaseFixture
         $this->createMany(
             Article::class, 
             10, 
-            function(Article $article, $count) 
+            function(Article $article, $count) use ($manager)
             {
 
                 $rand = rand(0, 10000);
@@ -49,6 +50,18 @@ class ArticleFixtures extends BaseFixture
                 if (rand(1, 10) > 2) {
                     $article->setPublishedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
                 }
+
+                // number of coments per article
+                for($i = 0; $i < rand(1, 4); $i++)
+                {
+                    $comment = new Comment();
+                    $comment->setAuthorName(Parser::parse('{Tech|Timo|Time} {Aim|Aimo|Aime}')->generate());
+                    $comment->setContent(Parser::parse('Laboris beef {ribs|test|aim|thing} fatback fugiat eiusmod jowl kielbasa alcatra dolore velit ea ball tip. Pariatur
+                    laboris sunt venison, et {laborum|liborume|tastio|aimeo|eteco} dolore minim non meatball.')->generate());
+                    $comment->setArticle($article);
+                    $manager->persist($comment);
+                }
+
 
             });
         

@@ -58,17 +58,19 @@ class ArticleController extends AbstractController
             throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
         }
         
+        //CommentRepository $commentRepository,
+        //$comments = $commentRepository->findBy(['article' => $article]);
+        //dump($comments);die;
 
-
-        $comments = [
-            'I ate a normal rock once. It did NOT taste like bacon!',
-            'Woohoo! I\'m going on an all-asteroid diet!',
-            'I like bacon too! Buy some from my site! bakinsomebacon.com',
-        ];
+        //$comments = $article->getComments();
+        //foreach ($comments as $comment) {
+        //    dump($comment);
+        //}
+        //die;
 
         $html = $twigEnvironment->render('article/show.html.twig', [
             'article' => $article,
-            'comments' => $comments,
+            //'comments' => $comments,
         ]);
 
         return new Response($html);
