@@ -211,6 +211,16 @@ class Article
         return $this->comments;
     }
 
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getNonDeletedComments(): Collection
+    {
+        $criteria = ArticleRepository::createNonDeletedCriteria();
+
+        return $this->comments->matching($criteria);
+    }
+
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {

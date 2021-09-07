@@ -19,6 +19,8 @@ class CommentFixture extends BaseFixture implements DependentFixtureInterface
             laboris sunt venison, et {laborum|liborume|tastio|aimeo|eteco} dolore minim non meatball.')->generate());
             
             $comment->setCreatedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
+
+            $comment->setIsDeleted((bool)random_int(0, 1));
             
             // $comment->setArticle($this->getReference(Article::class.'_'.rand(0, 9)));   
             
