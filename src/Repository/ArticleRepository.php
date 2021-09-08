@@ -27,6 +27,8 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAllPublishedOrderedByNewest()
     {
         return $this->sortDescendingQueryBuilder()
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
             ->getQuery()
             ->getResult()
         ;
