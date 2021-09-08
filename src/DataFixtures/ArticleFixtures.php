@@ -3,10 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use Doctrine\Persistence\ObjectManager;
 use bjoernffm\Spintax\Parser;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class ArticleFixtures extends BaseFixture
+class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
 {
     public function loadData(ObjectManager $manager)
     {
@@ -48,9 +50,23 @@ class ArticleFixtures extends BaseFixture
                     $article->setPublishedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
                 }
 
+                $tags = $this->getRandomReferences(Tag::class, rand(0, 5));
+
+                foreach ($tags as $tag) {
+                    $article->addTag($tag);
+                }
+
             });
         
         $manager->flush();
 
     }
+
+    public function getDependencies()
+    {
+        return [
+            TagFixture::class,
+        ];
+    }
+
 }
