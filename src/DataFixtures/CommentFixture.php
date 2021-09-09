@@ -12,7 +12,10 @@ class CommentFixture extends BaseFixture implements DependentFixtureInterface
 {
     protected function loadData(ObjectManager $manager)
     {
-        $this->createMany(Comment::class, 100, function(Comment $comment){
+        $this->createMany(100, 'main_comments', function(){
+
+            $comment = new Comment();
+
             $comment->setAuthorName(Parser::parse('{Tech|Timo|Time} {Aim|Aimo|Aime}')->generate());
             
             $comment->setContent(Parser::parse('Laboris beef {ribs|test|aim|thing} fatback fugiat eiusmod jowl kielbasa alcatra dolore velit ea ball tip. Pariatur
@@ -24,7 +27,9 @@ class CommentFixture extends BaseFixture implements DependentFixtureInterface
             
             // $comment->setArticle($this->getReference(Article::class.'_'.rand(0, 9)));   
             
-            $comment->setArticle($this->getRandomReference(Article::class));
+            $comment->setArticle($this->getRandomReference('main_articles'));
+
+            return $comment;
         });
 
         $manager->flush();

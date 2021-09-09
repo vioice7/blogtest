@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
-use App\Entity\Tag;
 use Doctrine\Persistence\ObjectManager;
 use bjoernffm\Spintax\Parser;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -13,12 +12,13 @@ class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
     public function loadData(ObjectManager $manager)
     {
         $this->createMany(
-            Article::class, 
-            10, 
-            function(Article $article, $count) use ($manager)
+            10,
+            'main_articles',
+            function($count) use ($manager)
             {
 
                 $rand = rand(0, 10000);
+                $article = new Article();
                 $article->setTitle(Parser::parse('Why Asteroids Taste Like {Bacon|Cheese|Cream|Caviar|IceCream}')->generate())
                     //->setSlug('why-asteroids-taste-like-something-'.$count)
                     ->setContent(<<<EOF
@@ -50,11 +50,13 @@ class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
                     $article->setPublishedAt(new \DateTime(sprintf('-%d days', rand(1, 100))));
                 }
 
-                $tags = $this->getRandomReferences(Tag::class, rand(0, 5));
+                $tags = $this->getRandomReferences('main_tags', rand(0, 5));
 
                 foreach ($tags as $tag) {
                     $article->addTag($tag);
                 }
+
+                return $article;
 
             });
         
