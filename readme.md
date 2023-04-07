@@ -1,8 +1,8 @@
-# Learning Symfony 4 (Symfony Casts)
+# Blog application symfony
 
 ===
 
-## Tutorial for learning symfony 4.
+## Blog application built in symfony4 (php and mysql)
 
 ===
 
